@@ -127,19 +127,15 @@ public class BooksServletIT {
         Assertions.assertThat(response.body()).isEqualTo(bookJson(1));
     }
 
-//    @Test
-//    @Order(7)
-//    void shouldFindAllBooks() throws Exception {
-//        HttpRequest findRequest = HttpRequest.newBuilder().uri(buildURI()).GET().build();
-//        HttpResponse<String> response = HTTP_CLIENT.send(findRequest, HttpResponse.BodyHandlers.ofString());
-//
-//        Assertions.assertThat(response.statusCode()).isEqualTo(200);
-//        Assertions.assertThat(response.body()).isEqualTo(
-//                        """
-//                        [
-//                            %s
-//                        ]""".formatted(bookJson(1)));
-//    }
+    @Test
+    @Order(7)
+    void shouldFindAllBooks() throws Exception {
+        HttpRequest findRequest = HttpRequest.newBuilder().uri(buildURI()).GET().build();
+        HttpResponse<String> response = HTTP_CLIENT.send(findRequest, HttpResponse.BodyHandlers.ofString());
+
+        Assertions.assertThat(response.statusCode()).isEqualTo(200);
+        Assertions.assertThat(response.body()).isEqualTo("[\n%s\n]".formatted(bookJson(1)));
+    }
 
     @Test
     @Order(8)
