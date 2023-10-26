@@ -37,12 +37,12 @@ public class BooksServlet extends HttpServlet {
             responseJson = book != null ? book.toJson() : null;
         } else {
             List<Book> books = booksService.findAll();
-            responseJson = "[\n" + books.stream().map(Book::toJson).collect(Collectors.joining(",\n")) + "\n]";
+            responseJson = books.isEmpty() ? "[]" : "[\n" + books.stream().map(Book::toJson).collect(Collectors.joining(",\n")) + "\n]";
         }
 
         if (responseJson != null) {
             response.setStatus(HttpServletResponse.SC_OK);
-            response.getWriter().println(responseJson);
+            response.getWriter().print(responseJson);
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
@@ -57,7 +57,7 @@ public class BooksServlet extends HttpServlet {
         patch.setId(id);
 
         response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().println(booksService.upsert(patch).toJson());
+        response.getWriter().print(booksService.upsert(patch).toJson());
     }
 
     @Override
@@ -79,7 +79,7 @@ public class BooksServlet extends HttpServlet {
             super.service(request, response);
         } catch (Exception exception) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().println(ERROR_RESPONSE.formatted(exception.getClass().getSimpleName(), exception.getMessage()));
+            response.getWriter().print(ERROR_RESPONSE.formatted(exception.getClass().getSimpleName(), exception.getMessage()));
         } finally {
             response.setContentType("application/json");
         }
