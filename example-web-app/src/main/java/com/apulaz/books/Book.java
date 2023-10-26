@@ -56,14 +56,13 @@ public class Book {
     }
 
     public static Book fromJson(String json) throws IOException {
-        String title = json.substring(json.indexOf("title")).split("\"", 4)[2];
-        String author = json.substring(json.indexOf("author")).split("\"", 4)[2];
-
         try {
+            String title = json.substring(json.indexOf("title")).split("\"", 4)[2];
+            String author = json.substring(json.indexOf("author")).split("\"", 4)[2];
             Date date = DATE_FORMAT.parse(json.substring(json.indexOf("date")).split("\"", 4)[2]);
             return new Book(title, author, date);
-        } catch (ParseException exception) {
-            throw new IOException(exception);
+        } catch (Exception exception) {
+            throw new IOException("Invalid book json");
         }
     }
 
